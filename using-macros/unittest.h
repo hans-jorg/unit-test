@@ -46,14 +46,16 @@ static unsigned TESTVERBOSEFLAG = 1;
 
 #define TESTINT(EXP,OBT) \
 _B                                                                      \
+    int exp = (EXP);                                                    \
+    int obt = (OBT);                                                    \
     TESTCOUNTER++;                                                      \
-    if( (EXP) != (OBT) ) {                                              \
+    if( exp != obt ) {                                                  \
         TESTFAILS++;                                                    \
         fprintf(stderr,"Line %d File %s: Expected %d Got %d\n",         \
             __LINE__,                                                   \
             __FILE__,                                                   \
-            (EXP),                                                      \
-            (OBT));                                                     \
+            exp,                                                        \
+            obt);                                                       \
      }                                                                  \
 _E
 
@@ -61,54 +63,62 @@ _E
 #define TESTBOOL(EXP,OBT) \
 _B                                                                      \
     /* TRUE != 0, but !TRUE = 0 and !FALSE = 1*/                        \
+    int exp = !!(EXP);                                                  \
+    int obt = !!(OBT);                                                  \
     TESTCOUNTER++;                                                      \
-    if( !(EXP) != !(OBT) ) {                                            \
+    if( exp != obt ) {                                                  \
         TESTFAILS++;                                                    \
         fprintf(stderr,"Line %d File %s: Expected %d Got %d\n",         \
             __LINE__,                                                   \
             __FILE__,                                                   \
-            !!(EXP),                                                    \
-            !!(OBT);                                                    \
+            exp,                                                        \
+            obt;                                                        \
     }                                                                   \
 _E
 
 
 #define TESTFLOAT(EXP,OBT) \
 _B                                                                      \
+    double exp = (EXP);                                                 \
+    double obt = (OBT);                                                 \
     TESTCOUNTER++;                                                      \
-    if( (EXP) != (OBT) ) {                                              \
+    if( exp != obt) ) {                                                 \
         TESTFAILS++;                                                    \
         fprintf(stderr,"Line %d File %s: Expected %g Got %g\n",         \
             __LINE__,                                                   \
             __FILE__,                                                   \
-            (EXP),                                                      \
-            (OBT));                                                     \
+            exp,                                                        \
+            obt);                                                       \
     }                                                                   \
 _E
 
 #define TESTSTRING(EXP,OBT) \
 _B                                                                      \
-     TESTCOUNTER++;                                                     \
-    if( strcmp((EXP),(OBT)) == 0 ) {                                    \
+    char *exp = (EXP);                                                  \
+    char *obt = (OBT);                                                  \
+    TESTCOUNTER++;                                                      \
+    if( strcmp(exp,obt) == 0 ) {                                        \
         TESTFAILS++;                                                    \
         fprintf(stderr,"Line %d File %s: Expected %s Got %s\n",         \
             __LINE__,                                                   \
             __FILE__,                                                   \
-            (EXP),                                                      \
-            (OBT));                                                     \
+            exp,                                                        \
+            obt);                                                       \
     }                                                                   \
 _E
 
 #define  TESTPOINTER(EXP,OBT)                                           \
 _B                                                                      \
+    void *exp = (EXP);                                                  \
+    void *obt = (OBT);                                                  \
     TESTCOUNTER++;                                                      \
-    if( (EXP) != (OBT) ) {                                              \
+    if( exp != obt ) {                                                  \
         TESTFAILS++;                                                    \
         fprintf(stderr,"Line %d File %s: Expected %p Got %p\n",         \
             __LINE__,                                                   \
             __FILE__,                                                   \
-            (EXP),                                                      \
-            (OBT));                                                     \
+            exp,                                                        \
+            obt);                                                       \
     }                                                                   \
 _E
 

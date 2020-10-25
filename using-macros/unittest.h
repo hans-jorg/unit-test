@@ -5,13 +5,13 @@
  *
  *  @brief  routines for unit test
  *
- *  @note   Test for strings uses strcmp. A include<string.h> is mandatory.
  *
  *  @author Hans
  *  @date   21/04/2019
  */
 
-int strcmp(char *, char *);
+#include <stdio.h>
+#include <string.h>
 
 #define TESTPREFIX unit
 
@@ -21,107 +21,110 @@ int strcmp(char *, char *);
 #define TESTFAILS       TESTCONCAT(TESTPREFIX,testFAILS)
 #define TESTVERBOSEFLAG TESTCONCAT(TESTPREFIX,testVERBOSE)
 
+/*  Hack!
+ *  Enables use of MACRO in the then clause of an if-then-else without
+ *  semicolon problem
+ */
+///@{
+
+/// Begin
+#define _B do {
+/// End
+#define _E } while(0)
+///@}
 
 static unsigned TESTCOUNTER     = 0;
 static unsigned TESTFAILS       = 0;
 static unsigned TESTVERBOSEFLAG = 1;
 
 
-static inline void  TESTSILENT(void) {
+#define  TESTSILENT() _B TESTVERBOSEFLAG = 0; _E
 
-    TESTVERBOSEFLAG = 0;
-}
+#define  TESTVERBOSE() _B TESTVERBOSEFLAG = 1; _E
 
-static inline void  TESTVERBOSE(void) {
+#define  TESTINIT(void) _B TESTCOUNTER = 0; TESTFAILS   = 0; _E
 
-    TESTVERBOSEFLAG = 1;
-}
-
-static inline void  TESTINIT(void) {
-    TESTCOUNTER = 0;
-    TESTFAILS   = 0;
-}
-
-static inline void TESTINT(int exp, int obt) {
-
-    TESTCOUNTER++;
-    if( exp != obt ) {
-        TESTFAILS++;
-        fprintf(stderr,"Linha %d File %s: Esperado %d Obtido %d\n",
-            __LINE__,
-            __FILE__,
-            exp,
-            obt);
-    }
-}
-
-static inline void TESTBOOL(int exp, int obt) {
-
-    exp = !exp;     // TRUE != 0, but !TRUE = 0 and !FALSE = 1
-    obt = !obt;
-    TESTCOUNTER++;
-    if( exp != obt ) {
-        TESTFAILS++;
-        fprintf(stderr,"Linha %d File %s: Esperado %d Obtido %d\n",
-            __LINE__,
-            __FILE__,
-            !exp,
-            !obt);
-    }
-}
-
-static inline void TESTFLOAT(double exp, double obt) {
-
-    TESTCOUNTER++;
-    if( exp != obt ) {
-        TESTFAILS++;
-        fprintf(stderr,"Linha %d File %s: Esperado %g Obtido %g\n",
-            __LINE__,
-            __FILE__,
-            exp,
-            obt);
-    }
-}
-
-static inline void TESTSTRING(char *exp, char *obt) {
-
-    TESTCOUNTER++;
-    if( strcmp(exp,obt) == 0 ) {
-        TESTFAILS++;
-        fprintf(stderr,"Linha %d File %s: Esperado %s Obtido %s\n",
-            __LINE__,
-            __FILE__,
-            exp,
-            obt);
-    }
-}
-
-static inline void  TESTPOINTER(void *exp, void *obt) {
-
-    TESTCOUNTER++;
-    if( exp != obt ) {
-        TESTFAILS++;
-        fprintf(stderr,"Linha %d File %s: Esperado %p Obtido %p\n",
-            __LINE__,
-            __FILE__,
-            exp,
-            obt);
-    }
-
-}
+#define TESTINT(EXP,OBT) \
+_B                                                                      \
+    TESTCOUNTER++;                                                      \
+    if( (EXP) != (OBT) ) {                                              \
+        TESTFAILS++;                                                    \
+        fprintf(stderr,"Line %d File %s: Expected %d Got %d\n",         \
+            __LINE__,                                                   \
+            __FILE__,                                                   \
+            (EXP),                                                      \
+            (OBT));                                                     \
+     }                                                                  \
+_E
 
 
-static inline void TESTMESSAGE(char *s) {
+#define TESTBOOL(EXP,OBT) \
+_B                                                                      \
+    /* TRUE != 0, but !TRUE = 0 and !FALSE = 1*/                        \
+    TESTCOUNTER++;                                                      \
+    if( !(EXP) != !(OBT) ) {                                            \
+        TESTFAILS++;                                                    \
+        fprintf(stderr,"Line %d File %s: Expected %d Got %d\n",         \
+            __LINE__,                                                   \
+            __FILE__,                                                   \
+            !!(EXP),                                                    \
+            !!(OBT);                                                    \
+    }                                                                   \
+_E
 
-    if( TESTVERBOSEFLAG )
-        fprintf(stderr,"%s\n",s);
-}
 
-static inline void TESTSUMMARY(void) {
+#define TESTFLOAT(EXP,OBT) \
+_B                                                                      \
+    TESTCOUNTER++;                                                      \
+    if( (EXP) != (OBT) ) {                                              \
+        TESTFAILS++;                                                    \
+        fprintf(stderr,"Line %d File %s: Expected %g Got %g\n",         \
+            __LINE__,                                                   \
+            __FILE__,                                                   \
+            (EXP),                                                      \
+            (OBT));                                                     \
+    }                                                                   \
+_E
 
-    fprintf(stderr,"%d tests %d fails\n",
-        TESTCOUNTER,
-        TESTFAILS);
-}
+#define TESTSTRING(EXP,OBT) \
+_B                                                                      \
+     TESTCOUNTER++;                                                     \
+    if( strcmp((EXP),(OBT)) == 0 ) {                                    \
+        TESTFAILS++;                                                    \
+        fprintf(stderr,"Line %d File %s: Expected %s Got %s\n",         \
+            __LINE__,                                                   \
+            __FILE__,                                                   \
+            (EXP),                                                      \
+            (OBT));                                                     \
+    }                                                                   \
+_E
+
+#define  TESTPOINTER(EXP,OBT)                                           \
+_B                                                                      \
+    TESTCOUNTER++;                                                      \
+    if( (EXP) != (OBT) ) {                                              \
+        TESTFAILS++;                                                    \
+        fprintf(stderr,"Line %d File %s: Expected %p Got %p\n",         \
+            __LINE__,                                                   \
+            __FILE__,                                                   \
+            (EXP),                                                      \
+            (OBT));                                                     \
+    }                                                                   \
+_E
+
+
+#define TESTMESSAGE(S) \
+_B                                                                      \
+    if( TESTVERBOSEFLAG )                                               \
+        fprintf(stderr,"%s\n",(S));                                     \
+_E
+
+#define TESTSUMMARY(void) \
+_B                                                                      \
+    fprintf(stderr,"%d tests %d fails\n",                               \
+        TESTCOUNTER,                                                    \
+        TESTFAILS);                                                     \
+_E
 
 #endif
+

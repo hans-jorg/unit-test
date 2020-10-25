@@ -11,7 +11,8 @@
  *  @date   21/04/2019
  */
 
-int strcmp(char *, char *);
+#include <stdio.h>
+#include <string.h>
 
 #define TESTPREFIX unit
 
@@ -47,7 +48,7 @@ static inline void TESTINT(int exp, int obt) {
     TESTCOUNTER++;
     if( exp != obt ) {
         TESTFAILS++;
-        fprintf(stderr,"Linha %d File %s: Esperado %d Obtido %d\n",
+        fprintf(stderr,"Line %d File %s: Expected %d Got %d\n",
             __LINE__,
             __FILE__,
             exp,
@@ -62,7 +63,7 @@ static inline void TESTBOOL(int exp, int obt) {
     TESTCOUNTER++;
     if( exp != obt ) {
         TESTFAILS++;
-        fprintf(stderr,"Linha %d File %s: Esperado %d Obtido %d\n",
+        fprintf(stderr,"Line %d File %s: Expected %d Got %d\n",
             __LINE__,
             __FILE__,
             !exp,
@@ -75,7 +76,7 @@ static inline void TESTFLOAT(double exp, double obt) {
     TESTCOUNTER++;
     if( exp != obt ) {
         TESTFAILS++;
-        fprintf(stderr,"Linha %d File %s: Esperado %g Obtido %g\n",
+        fprintf(stderr,"Line %d File %s: Expected %g Got %g\n",
             __LINE__,
             __FILE__,
             exp,
@@ -88,7 +89,7 @@ static inline void TESTSTRING(char *exp, char *obt) {
     TESTCOUNTER++;
     if( strcmp(exp,obt) == 0 ) {
         TESTFAILS++;
-        fprintf(stderr,"Linha %d File %s: Esperado %s Obtido %s\n",
+        fprintf(stderr,"Line %d File %s: Expected %s Got %s\n",
             __LINE__,
             __FILE__,
             exp,
@@ -101,7 +102,7 @@ static inline void  TESTPOINTER(void *exp, void *obt) {
     TESTCOUNTER++;
     if( exp != obt ) {
         TESTFAILS++;
-        fprintf(stderr,"Linha %d File %s: Esperado %p Obtido %p\n",
+        fprintf(stderr,"Line %d File %s: Expected %p Got %p\n",
             __LINE__,
             __FILE__,
             exp,

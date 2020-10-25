@@ -186,14 +186,14 @@ int rc;
 
     TESTINIT();
 
-    TESTMESSAGE("Criando um buffer circular para 4 elementos");
+    TESTMESSAGE("Creating a circular buffer for 4 elements");
     f = cbuffer_create(4);
     TESTINT(0,cbuffer_size(f));
     TESTINT(4,cbuffer_capacity(f));
     TESTINT(1,cbuffer_empty(f));
     TESTINT(0,cbuffer_full(f));
 
-    TESTMESSAGE("Inserindo 10 elementos. Somente os ultimos 4 devem sobrar");
+    TESTMESSAGE("Inserting 10 elements. Only the last 4 should remain");
     for(i=0;i<10;i++) {
         rc = cbuffer_insert(f,i);
         TESTINT(0,rc);
@@ -204,7 +204,7 @@ int rc;
     TESTINT(0,cbuffer_empty(f));
     TESTINT(1,cbuffer_full(f));
 
-    TESTMESSAGE("Removendo dois elementos");
+    TESTMESSAGE("Removing two elements");
     rc = cbuffer_remove(f,&i);
     TESTINT(0,rc);
     TESTINT(6,i);
@@ -212,25 +212,25 @@ int rc;
     TESTINT(0,rc);
     TESTINT(7,i);
 
-    TESTMESSAGE("Buffer com dois elementos");
+    TESTMESSAGE("Buffer should have two elements");
     TESTINT(2,cbuffer_size(f));
     TESTINT(4,cbuffer_capacity(f));
     TESTINT(0,cbuffer_empty(f));
     TESTINT(0,cbuffer_full(f));
 
-    TESTMESSAGE("Inserindo mais 10");
+    TESTMESSAGE("Inserting 10 more");
     for(i=10;i<20;i++) {
         rc = cbuffer_insert(f,i);
         TESTINT(0,rc);
     }
 
-    TESTMESSAGE("Buffer cheio");
+    TESTMESSAGE("Buffer full");
     TESTINT(4,cbuffer_size(f));
     TESTINT(4,cbuffer_capacity(f));
     TESTINT(0,cbuffer_empty(f));
     TESTINT(1,cbuffer_full(f));
 
-    TESTMESSAGE("Removendo tudo");
+    TESTMESSAGE("Removing all");
     e = 16;
     while( !cbuffer_empty(f) ) {
         rc = cbuffer_remove(f,&i);
@@ -239,7 +239,7 @@ int rc;
         e++;
     }
 
-    TESTMESSAGE("Buffer vazio");
+    TESTMESSAGE("Buffer empty");
     TESTINT(0,cbuffer_size(f));
     TESTINT(4,cbuffer_capacity(f));
     TESTINT(1,cbuffer_empty(f));

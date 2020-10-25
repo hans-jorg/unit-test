@@ -3,14 +3,11 @@ Unit test routines for C
 
 
 # Motivation
-It is yet another unit test for C. It is simple and does not, like many others, evaluate the arguments twice (one for test and another for printing). This is a problem when a function has 
-side effects.
+It is yet another unit test for C. It is simple and the inline version does not, like many others, evaluate the arguments twice (one for test and another for printing). This is a problem when a function has side effects.
 
 # Description
 
-`#include "unittest.h>` must be inserted before the main routine.
-
-Output goes to stderr!
+**Output goes to stderr!**
 
 The implemented routines include:
 

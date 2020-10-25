@@ -5,6 +5,9 @@ Unit test routines for C
 # Motivation
 It is yet another unit test for C. It is simple and the inline version does not, like many others, evaluate the arguments twice (one for test and another for printing). This is a problem when a function has side effects.
 
+The macro version now evaluates parameters only once too. It uses the variables with block scope introduced by C99.
+
+
 # Description
 
 **Output goes to stderr!**
